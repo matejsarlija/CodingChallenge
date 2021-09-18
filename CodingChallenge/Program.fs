@@ -1,6 +1,8 @@
 ﻿open System
 
-type Cash = { Quantity: double; Currency: string }
+type Currency = Currency of string
+
+type Cash = { Quantity: double; Currency: Currency }
 
 type Stock =
     { Symbol: string
