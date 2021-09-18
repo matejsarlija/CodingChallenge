@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ILt3NzE6xv5X4ubkMBp8B5bsjX8mQeJMjwHZLtSpGugnYxGc+TMNhZDw+sx7NZBIFMngWlj126JqYpOIg61EYw==",
+  "dgSpecHash": "lSkNN7+Inc/9J5zW2R1Sl2mlyoLwB8APtLRVQVrVq+w21RO7/wKpmABanQ4Ear70y/rb0kErKTBPN14l+JTgxw==",
   "success": true,
-  "projectFilePath": "c:\\Users\\matej\\Projects\\CodingChallenge\\CodingChallenge\\CodingChallenge.fsproj",
+  "projectFilePath": "C:\\Users\\matej\\Projects\\CodingChallenge\\CodingChallenge\\CodingChallenge.fsproj",
   "expectedPackageFiles": [
     "C:\\Users\\matej\\.nuget\\packages\\fsharp.core\\5.0.0\\fsharp.core.5.0.0.nupkg.sha512"
   ],

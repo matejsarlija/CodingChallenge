@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\matej\\Projects\\CodingChallenge\\CodingChallenge\\CodingChallenge.fsproj": {}
+    "C:\\Users\\matej\\Projects\\CodingChallenge\\CodingChallenge\\CodingChallenge.fsproj": {}
   },
   "projects": {
-    "c:\\Users\\matej\\Projects\\CodingChallenge\\CodingChallenge\\CodingChallenge.fsproj": {
+    "C:\\Users\\matej\\Projects\\CodingChallenge\\CodingChallenge\\CodingChallenge.fsproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\matej\\Projects\\CodingChallenge\\CodingChallenge\\CodingChallenge.fsproj",
+        "projectUniqueName": "C:\\Users\\matej\\Projects\\CodingChallenge\\CodingChallenge\\CodingChallenge.fsproj",
         "projectName": "CodingChallenge",
-        "projectPath": "c:\\Users\\matej\\Projects\\CodingChallenge\\CodingChallenge\\CodingChallenge.fsproj",
+        "projectPath": "C:\\Users\\matej\\Projects\\CodingChallenge\\CodingChallenge\\CodingChallenge.fsproj",
         "packagesPath": "C:\\Users\\matej\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\matej\\Projects\\CodingChallenge\\CodingChallenge\\obj\\",
+        "outputPath": "C:\\Users\\matej\\Projects\\CodingChallenge\\CodingChallenge\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\matej\\AppData\\Roaming\\NuGet\\NuGet.Config"
