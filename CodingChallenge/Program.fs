@@ -4,6 +4,8 @@ open FSharp.Data
 // let format = System.Globalization.CultureInfo.CreateSpecificCulture("hr-HR")
 type CurrResponse = JsonProvider<"https://api.hnb.hr/tecajn/v2", Culture="hr-HR">
 
+
+// prodajniTecaj = quote when selling currency to bank
 let currencies = CurrResponse.GetSamples() 
                 |> Seq.map(fun x -> (x.Valuta, double x.ProdajniTecaj))
 
@@ -31,6 +33,9 @@ type Asset =
         match this with
         | Cash c -> c.Value
         | Stock s -> s.Value
+
+    member this.Currency = 
+        this.Currency
 
 type AssetPortfolio() =
     let portfolio = ResizeArray<Asset>()
@@ -69,10 +74,16 @@ let main argv =
           Currency = Currency "GBP"}
     )
 
+    assetPortfolio.Add(Cash {
+        Quantity = 100.0
+        Currency = Currency "USD"
+    })
+
     if not <| AreEqual(assetPortfolio.Value(), 1800.0) then
         printfn "Test1 Failed, Expected Value: %f, Actual Value: %f" 1800.0 (assetPortfolio.Value())
 
     printfn "%A" currencies
+
     printfn "Done... (Press a key to close)"
     Console.ReadKey() |> ignore
     0
