@@ -2,7 +2,11 @@
 
 type Currency = Currency of string
 
-type Cash = { Quantity: double; Currency: Currency }
+type Cash = 
+    { Quantity: double
+      Currency: Currency }
+
+    member this.Value() = this.Quantity
 
 type Stock =
     { Symbol: string
@@ -16,8 +20,13 @@ type Asset =
     | Cash of Cash
     | Stock of Stock
 
+    member this.Value =
+        match this with
+        | Cash c -> c.Value
+        | Stock s -> s.Value
+
 type AssetPortfolio() =
-    let portfolio = ResizeArray<Stock>()
+    let portfolio = ResizeArray<Asset>()
 
 
     member this.Add(a) = portfolio.Add(a)
@@ -25,8 +34,8 @@ type AssetPortfolio() =
     member this.Value() =
         let mutable v = 0.0
 
-        for stock in portfolio do
-            v <- v + stock.Value()
+        for asset in portfolio do
+            v <- v + asset.Value()
         v
 
     member this.Consolidate() : AssetPortfolio = failwith "not yet implemented"
