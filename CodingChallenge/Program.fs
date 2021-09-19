@@ -1,10 +1,9 @@
 ﻿open System
 open FSharp.Data
 
-let apiKey = "a0abafa13b68dad201c768b78da5871f"
-
 type CurrResponse = JsonProvider<"https://api.hnb.hr/tecajn/v2">
 
+let currencies = CurrResponse.GetSamples() |> Seq.map(fun x -> (x.Valuta, x.ProdajniTecaj))
 
 type Currency = Currency of string
 
@@ -71,6 +70,7 @@ let main argv =
     if not <| AreEqual(assetPortfolio.Value(), 1800.0) then
         printfn "Test1 Failed, Expected Value: %f, Actual Value: %f" 1800.0 (assetPortfolio.Value())
 
+    printfn "%A" currencies
     printfn "Done... (Press a key to close)"
     Console.ReadKey() |> ignore
     0
