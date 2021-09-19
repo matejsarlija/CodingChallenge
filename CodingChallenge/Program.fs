@@ -1,9 +1,11 @@
 ﻿open System
 open FSharp.Data
 
-type CurrResponse = JsonProvider<"https://api.hnb.hr/tecajn/v2">
+// let format = System.Globalization.CultureInfo.CreateSpecificCulture("hr-HR")
+type CurrResponse = JsonProvider<"https://api.hnb.hr/tecajn/v2", Culture="hr-HR">
 
-let currencies = CurrResponse.GetSamples() |> Seq.map(fun x -> (x.Valuta, x.ProdajniTecaj))
+let currencies = CurrResponse.GetSamples() 
+                |> Seq.map(fun x -> (x.Valuta, double x.ProdajniTecaj))
 
 type Currency = Currency of string
 
