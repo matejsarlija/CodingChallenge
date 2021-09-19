@@ -7,7 +7,8 @@ type Cash = { Quantity: double; Currency: Currency }
 type Stock =
     { Symbol: string
       Shares: double
-      Price: double }
+      Price: double 
+      Currency: Currency}
 
     member this.Value() = this.Shares * this.Price
 
@@ -42,13 +43,15 @@ let main argv =
     assetPortfolio.Add(
         { Symbol = "ABC"
           Shares = 200.0
-          Price = 4.0 }
+          Price = 4.0 
+          Currency = Currency "GBP"}
     )
 
     assetPortfolio.Add(
         { Symbol = "DDW"
           Shares = 100.0
-          Price = 10.0 }
+          Price = 10.0 
+          Currency = Currency "GBP"}
     )
 
     if not <| AreEqual(assetPortfolio.Value(), 1800.0) then
