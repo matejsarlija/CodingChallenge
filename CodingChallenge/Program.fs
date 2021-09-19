@@ -28,7 +28,6 @@ type Asset =
 type AssetPortfolio() =
     let portfolio = ResizeArray<Asset>()
 
-
     member this.Add(a) = portfolio.Add(a)
 
     member this.Value() =
@@ -49,14 +48,14 @@ type IExchangeRates =
 let main argv =
     let assetPortfolio = AssetPortfolio()
 
-    assetPortfolio.Add(
+    assetPortfolio.Add( Stock
         { Symbol = "ABC"
           Shares = 200.0
           Price = 4.0 
           Currency = Currency "GBP"}
     )
 
-    assetPortfolio.Add(
+    assetPortfolio.Add( Stock
         { Symbol = "DDW"
           Shares = 100.0
           Price = 10.0 
