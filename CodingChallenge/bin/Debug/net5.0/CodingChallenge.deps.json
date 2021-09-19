@@ -8,7 +8,8 @@
     ".NETCoreApp,Version=v5.0": {
       "CodingChallenge/1.0.0": {
         "dependencies": {
-          "FSharp.Core": "5.0.0"
+          "FSharp.Core": "5.0.0",
+          "FSharp.Data": "4.2.3"
         },
         "runtime": {
           "CodingChallenge.dll": {}
@@ -62,6 +63,17 @@
             "locale": "zh-Hant"
           }
         }
+      },
+      "FSharp.Data/4.2.3": {
+        "dependencies": {
+          "FSharp.Core": "5.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/FSharp.Data.dll": {
+            "assemblyVersion": "4.2.3.0",
+            "fileVersion": "4.2.3.0"
+          }
+        }
       }
     }
   },
@@ -77,6 +89,13 @@
       "sha512": "sha512-iHoYXA0VaSQUONGENB1aVafjDDZDZpwu39MtaRCTrmwFW/cTcK0b2yKNVYneFHJMc3ChtsSoM9lNtJ1dYXkHfA==",
       "path": "fsharp.core/5.0.0",
       "hashPath": "fsharp.core.5.0.0.nupkg.sha512"
+    },
+    "FSharp.Data/4.2.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-GNghvgsxu8Ea9beKOgc6VTm3UnixPSlf/S+BPWNCsifSzNevvlnoTKjXVVQfHOtKLbbGGbqQxMKuV0GaE6oXYA==",
+      "path": "fsharp.data/4.2.3",
+      "hashPath": "fsharp.data.4.2.3.nupkg.sha512"
     }
   }
 }

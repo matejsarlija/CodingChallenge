@@ -25,3 +25,4 @@ C:\Users\matej\Projects\CodingChallenge\CodingChallenge\obj\Debug\net5.0\CodingC
 C:\Users\matej\Projects\CodingChallenge\CodingChallenge\obj\Debug\net5.0\CodingChallenge.dll
 C:\Users\matej\Projects\CodingChallenge\CodingChallenge\obj\Debug\net5.0\CodingChallenge.pdb
 C:\Users\matej\Projects\CodingChallenge\CodingChallenge\obj\Debug\net5.0\CodingChallenge.genruntimeconfig.cache
+C:\Users\matej\Projects\CodingChallenge\CodingChallenge\bin\Debug\net5.0\FSharp.Data.dll

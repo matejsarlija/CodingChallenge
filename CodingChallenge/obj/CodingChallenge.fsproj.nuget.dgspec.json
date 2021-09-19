@@ -38,6 +38,11 @@
               "target": "Package",
               "version": "[5.0.0, )",
               "generatePathProperty": true
+            },
+            "FSharp.Data": {
+              "target": "Package",
+              "version": "[4.2.3, )",
+              "generatePathProperty": true
             }
           },
           "imports": [

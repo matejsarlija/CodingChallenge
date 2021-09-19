@@ -1,4 +1,10 @@
 ﻿open System
+open FSharp.Data
+
+let apiKey = "a0abafa13b68dad201c768b78da5871f"
+
+type CurrResponse = JsonProvider<"https://api.hnb.hr/tecajn/v2">
+
 
 type Currency = Currency of string
 
