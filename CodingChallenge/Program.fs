@@ -5,7 +5,7 @@ open FSharp.Data
 type CurrResponse = JsonProvider<"https://api.hnb.hr/tecajn/v2", Culture="hr-HR">
 
 
-// prodajniTecaj = quote when selling currency to bank
+// prodajniTecaj is Croatian for quote when selling currency to bank
 let currencies = CurrResponse.GetSamples() 
                 |> Seq.map(fun x -> (x.Valuta, double x.ProdajniTecaj))
 
