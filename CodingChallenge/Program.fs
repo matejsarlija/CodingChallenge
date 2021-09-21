@@ -7,9 +7,12 @@ type CurrResponse = JsonProvider<"https://api.hnb.hr/tecajn/v2", Culture="hr-HR"
 
 // prodajniTecaj is Croatian for quote when selling currency to bank
 let currencies = CurrResponse.GetSamples() 
-                |> Seq.map(fun x -> (x.Valuta, double x.ProdajniTecaj))
+                |> Seq.map(fun x -> (x.Valuta, double x.ProdajniTecaj)) |> Map
 
 type Currency = Currency of string
+
+type IExchangeRates =
+    abstract member GetRate : fromCurrency: string -> toCurrency: string -> unit
 
 type Cash = 
     { Quantity: double
@@ -31,30 +34,28 @@ type Asset =
 
     member this.Value =
         match this with
-        | Cash c -> c.Value
-        | Stock s -> s.Value
-
-    member this.Currency = 
-        this.Currency
+        | Cash c -> (c.Value(), c.Currency)
+        | Stock s -> (s.Value(), s.Currency)
 
 type AssetPortfolio() =
     let portfolio = ResizeArray<Asset>()
 
     member this.Add(a) = portfolio.Add(a)
 
-    member this.Value() =
+    member this.Value currency =
         let mutable v = 0.0
 
         for asset in portfolio do
-            v <- v + asset.Value()
+            match asset.Value with 
+            |  (x,y) when y = currency -> v <- x
+            | (x,y) when y <> currency 
         v
 
     member this.Consolidate() : AssetPortfolio = failwith "not yet implemented"
 
 let AreEqual (a: double, b: double) = Math.Abs(a - b) < 0.0001
 
-type IExchangeRates =
-    abstract member GetRate : fromCurrency: string -> toCurrency: string -> unit
+
 
 [<EntryPoint>]
 let main argv =
