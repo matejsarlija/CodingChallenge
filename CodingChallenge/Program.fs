@@ -7,12 +7,13 @@ type CurrResponse = JsonProvider<"https://api.hnb.hr/tecajn/v2", Culture="hr-HR"
 
 // prodajniTecaj is Croatian for quote when selling currency to bank
 let currencies = CurrResponse.GetSamples() 
-                |> Seq.map(fun x -> (x.Valuta, double x.ProdajniTecaj)) |> Map
+                |> Seq.map(fun x -> (x.Valuta, double x.ProdajniTecaj)) 
+                |> Map
 
 type Currency = Currency of string
 
 type IExchangeRates =
-    abstract member GetRate : fromCurrency: string -> toCurrency: string -> unit
+    abstract member GetRate : fromCurrency: string -> toCurrency: string -> double
 
 type Cash = 
     { Quantity: double
@@ -44,7 +45,10 @@ type AssetPortfolio() =
 
     interface IExchangeRates with
         member this.GetRate lhs rhs =
-        match currencies 
+            // Map.filter (fun x -> x = lhs || x = rhs) currencies
+            let x = Map.find lhs currencies
+            let y = Map.find rhs currencies
+            y / x
         
 
     member this.Value currency =
