@@ -42,20 +42,23 @@ type AssetPortfolio() =
 
     member this.Add(a) = portfolio.Add(a)
 
+    interface IExchangeRates with
+        member this.GetRate lhs rhs =
+        match currencies 
+        
+
     member this.Value currency =
         let mutable v = 0.0
 
         for asset in portfolio do
             match asset.Value with 
             | (x,y) when y = currency -> v <- x
-            | (x,y) when y <> currency -> v <- x * this.GetRate currency y
+            | (x,y) when y <> currency -> v <- x * (this.GetRate currency y)
         v
 
     member this.Consolidate() : AssetPortfolio = failwith "not yet implemented"
 
 let AreEqual (a: double, b: double) = Math.Abs(a - b) < 0.0001
-
-
 
 [<EntryPoint>]
 let main argv =
