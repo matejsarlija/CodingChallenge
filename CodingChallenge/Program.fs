@@ -47,8 +47,8 @@ type AssetPortfolio() =
 
         for asset in portfolio do
             match asset.Value with 
-            |  (x,y) when y = currency -> v <- x
-            | (x,y) when y <> currency 
+            | (x,y) when y = currency -> v <- x
+            | (x,y) when y <> currency -> v <- x * this.GetRate currency y
         v
 
     member this.Consolidate() : AssetPortfolio = failwith "not yet implemented"
