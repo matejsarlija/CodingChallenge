@@ -6,7 +6,7 @@ type CurrResponse = JsonProvider<"https://api.hnb.hr/tecajn/v2", Culture="hr-HR"
 
 type Currency = Currency of string
 
-// prodajniTecaj is Croatian for quote when selling currency to bank
+// "prodajniTecaj" is Croatian for quote when selling currency to bank
 let currencies = CurrResponse.GetSamples() 
                 |> Seq.map(fun x -> (Currency x.Valuta, double x.ProdajniTecaj)) 
                 |> Map
@@ -54,12 +54,13 @@ type AssetPortfolio() =
                 | :? InvalidOperationException as ex -> "Something went wrong.";0.0
         
     member this.Value currency =
-        let mutable v = 0.0
+        let mutable v:double = 0.0
 
         for asset in portfolio do
             match asset.Value with 
-            | (x,y) when y = currency -> v <- x
-            | (x,y) when y <> currency -> v <- x * (this :> IExchangeRates).GetRate currency y
+            | (x,y) when y = currency -> v <- v + x
+            | (x,y) when y <> currency -> v <- v + x * (this :> IExchangeRates).GetRate currency y
+            | _ -> printf "Something's wrong with the portfolio lookup at the moment." 
         v
 
     member this.Consolidate() : AssetPortfolio = failwith "not yet implemented"
@@ -89,8 +90,8 @@ let main argv =
         Currency = Currency "USD"
     })
 
-    if not <| AreEqual(assetPortfolio.Value(), 1800.0) then
-        printfn "Test1 Failed, Expected Value: %f, Actual Value: %f" 1800.0 (assetPortfolio.Value())
+    if not <| AreEqual(assetPortfolio.Value(Currency "USD"), 1800.0) then
+        printfn "Test1 Failed, Expected Value: %f, Actual Value: %f" 1800.0 (assetPortfolio.Value(Currency "HRK"))
 
     printfn "%A" currencies
 
