@@ -4,16 +4,15 @@ open FSharp.Data
 // let format = System.Globalization.CultureInfo.CreateSpecificCulture("hr-HR")
 type CurrResponse = JsonProvider<"https://api.hnb.hr/tecajn/v2", Culture="hr-HR">
 
+type Currency = Currency of string
 
 // prodajniTecaj is Croatian for quote when selling currency to bank
 let currencies = CurrResponse.GetSamples() 
-                |> Seq.map(fun x -> (x.Valuta, double x.ProdajniTecaj)) 
+                |> Seq.map(fun x -> (Currency x.Valuta, double x.ProdajniTecaj)) 
                 |> Map
 
-type Currency = Currency of string
-
 type IExchangeRates =
-    abstract member GetRate : fromCurrency: string -> toCurrency: string -> double
+    abstract member GetRate : fromCurrency: Currency -> toCurrency: Currency -> double
 
 type Cash = 
     { Quantity: double
@@ -46,18 +45,21 @@ type AssetPortfolio() =
     interface IExchangeRates with
         member this.GetRate lhs rhs =
             // Map.filter (fun x -> x = lhs || x = rhs) currencies
-            let x = Map.find lhs currencies
+            let x = if lhs = Currency "HRK" then double 1.0 else Map.find lhs currencies
             let y = Map.find rhs currencies
-            y / x
+            try 
+                y / x
+            with 
+                | Failure msg -> "caught: " + msg;0.0
+                | :? InvalidOperationException as ex -> "Something went wrong.";0.0
         
-
     member this.Value currency =
         let mutable v = 0.0
 
         for asset in portfolio do
             match asset.Value with 
             | (x,y) when y = currency -> v <- x
-            | (x,y) when y <> currency -> v <- x * (this.GetRate currency y)
+            | (x,y) when y <> currency -> v <- x * (this :> IExchangeRates).GetRate currency y
         v
 
     member this.Consolidate() : AssetPortfolio = failwith "not yet implemented"
