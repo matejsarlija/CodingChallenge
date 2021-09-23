@@ -28,6 +28,8 @@ type Stock =
 
     member this.Value() = this.Shares * this.Price
 
+    member this.Symbol = this.Symbol
+
 type Asset =
     | Cash of Cash
     | Stock of Stock
@@ -44,7 +46,6 @@ type AssetPortfolio() =
 
     interface IExchangeRates with
         member this.GetRate lhs rhs =
-            // Map.filter (fun x -> x = lhs || x = rhs) currencies
             let x = if lhs = Currency "HRK" then double 1.0 else Map.find lhs currencies
             let y = Map.find rhs currencies
             try 
@@ -63,7 +64,16 @@ type AssetPortfolio() =
             | _ -> printf "Something's wrong with the portfolio lookup at the moment." 
         v
 
-    member this.Consolidate() : AssetPortfolio = failwith "not yet implemented"
+    member this.Consolidate() : AssetPortfolio =
+
+        let stocks = List.Empty
+        let cache = List.Empty
+        portfolio 
+        |> Seq.toList 
+        |> List.map (fun x -> function 
+        | Stock -> x::stocks
+        | Cash -> x::cache
+        
 
 let AreEqual (a: double, b: double) = Math.Abs(a - b) < 0.0001
 
