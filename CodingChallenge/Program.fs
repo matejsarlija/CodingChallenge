@@ -66,13 +66,20 @@ type AssetPortfolio() =
 
     member this.Consolidate() : AssetPortfolio =
 
-        let stocks = List.Empty
-        let cache = List.Empty
-        portfolio 
-        |> Seq.toList 
-        |> List.map (fun x -> function 
-        | Stock -> x::stocks
-        | Cash -> x::cache
+        let stocks = []
+        let cache = []
+        let portfolioList = portfolio |> Seq.toList
+        // we can do this directly from ResizeArray
+        for x in portfolioList do
+            match box x with
+            | :? Stock -> x::stocks
+            | :? Cash -> x::cache  
+
+        List.filter 
+            
+            
+            
+        
         
 
 let AreEqual (a: double, b: double) = Math.Abs(a - b) < 0.0001
