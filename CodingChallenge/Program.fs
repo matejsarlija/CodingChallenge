@@ -10,7 +10,7 @@ type Currency = Currency of string
 let currencies = CurrResponse.GetSamples() 
                 |> Seq.map(fun x -> (Currency x.Valuta, double x.ProdajniTecaj)) 
                 |> Map
-
+                
 type IExchangeRates =
     abstract member GetRate : fromCurrency: Currency -> toCurrency: Currency -> double
 
@@ -27,8 +27,6 @@ type Stock =
       Currency: Currency}
 
     member this.Value() = this.Shares * this.Price
-
-    member this.Symbol = this.Symbol
 
 type Asset =
     | Cash of Cash
@@ -64,23 +62,8 @@ type AssetPortfolio() =
             | _ -> printf "Something's wrong with the portfolio lookup at the moment." 
         v
 
-    member this.Consolidate() : AssetPortfolio =
+    member this.Consolidate() : AssetPortfolio = failwith "Not yet implemented"
 
-        let stocks = []
-        let cache = []
-        let portfolioList = portfolio |> Seq.toList
-        // we can do this directly from ResizeArray
-        for x in portfolioList do
-            match box x with
-            | :? Stock -> x::stocks
-            | :? Cash -> x::cache  
-
-        List.filter 
-            
-            
-            
-        
-        
 
 let AreEqual (a: double, b: double) = Math.Abs(a - b) < 0.0001
 
