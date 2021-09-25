@@ -10,7 +10,7 @@ type Currency = Currency of string
 let currencies = CurrResponse.GetSamples() 
                 |> Seq.map(fun x -> (Currency x.Valuta, double x.ProdajniTecaj)) 
                 |> Map
-                
+
 type IExchangeRates =
     abstract member GetRate : fromCurrency: Currency -> toCurrency: Currency -> double
 
@@ -21,7 +21,7 @@ type Cash =
     member this.Value() = this.Quantity
 
 type Stock =
-    { Symbol: string
+    { Symb: string
       Shares: double
       Price: double 
       Currency: Currency}
@@ -40,7 +40,20 @@ type Asset =
 type AssetPortfolio() =
     let portfolio = ResizeArray<Asset>()
 
-    member this.Add(a) = portfolio.Add(a)
+    let cashMap = Map.empty
+    let stockMap = Map.empty
+
+    let consolidateCash (a:Cash) ourMap = 
+        if Map.containsKey a.Currency ourMap then Map.change a.Currency (fun x -> ourMap.[a.Currency] + a.Quantity) ourMap else Map.add a.Currency a.Quantity ourMap
+
+
+    member this.Add(a) = 
+        match a with 
+        | Cash a ->  consolidateCash a cashMap
+        | Stock a -> if Map.containsKey a.Symb stockConsolidated then stockConsolidated.[a.Symb]= stockConsolidated.[a.Symb] + 1 else stockConsolidated.[a.Symb] = 1
+        stockConsolidated 
+
+        portfolio.Add(a)
 
     interface IExchangeRates with
         member this.GetRate lhs rhs =
@@ -72,14 +85,14 @@ let main argv =
     let assetPortfolio = AssetPortfolio()
 
     assetPortfolio.Add( Stock
-        { Symbol = "ABC"
+        { Symb = "ABC"
           Shares = 200.0
           Price = 4.0 
           Currency = Currency "GBP"}
     )
 
     assetPortfolio.Add( Stock
-        { Symbol = "DDW"
+        { Symb = "DDW"
           Shares = 100.0
           Price = 10.0 
           Currency = Currency "GBP"}
