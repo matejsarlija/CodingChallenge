@@ -40,18 +40,14 @@ type Asset =
 type AssetPortfolio() =
     let portfolio = ResizeArray<Asset>()
 
-    let cashMap = Map.empty
-    let stockMap = Map.empty
-
-    let consolidateCash (a:Cash) ourMap = 
-        if Map.containsKey a.Currency ourMap then Map.change a.Currency (fun x -> ourMap.[a.Currency] + a.Quantity) ourMap else Map.add a.Currency a.Quantity ourMap
+    let cashArr = ResizeArray<Cash>()
+    let stockArr = ResizeArray<Stock>()
 
 
     member this.Add(a) = 
         match a with 
-        | Cash a ->  consolidateCash a cashMap
-        | Stock a -> if Map.containsKey a.Symb stockConsolidated then stockConsolidated.[a.Symb]= stockConsolidated.[a.Symb] + 1 else stockConsolidated.[a.Symb] = 1
-        stockConsolidated 
+        | Cash a -> cashArr.Add(a)
+        | Stock a -> stockArr.Add(a)
 
         portfolio.Add(a)
 
