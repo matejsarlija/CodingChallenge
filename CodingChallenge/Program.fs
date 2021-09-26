@@ -107,11 +107,6 @@ let main argv =
     })
 
     assetPortfolio.Add(Cash {
-        Quantity = 100.0
-        Currency = Currency "USD"
-    })
-
-    assetPortfolio.Add(Cash {
         Quantity = 200.0
         Currency = Currency "GBP"
     })
