@@ -65,6 +65,7 @@ type AssetPortfolio() =
             | (x,y) when y <> currency -> v <- v + x * (this :> IExchangeRates).GetRate currency y
             | _ -> printf "Something's wrong with the portfolio lookup at the moment." 
         v
+        
     // : AssetPortfolio
     member this.Consolidate() =
         let ourCashResult = 
@@ -77,12 +78,9 @@ type AssetPortfolio() =
             |> Seq.groupBy(fun x -> x.Symb)
             |> Seq.map (fun (x, y) -> (x , y |> Seq.sumBy (fun x -> x.Shares), y |> Seq.averageBy (fun x -> x.Price) ))
 
-        // let ourResult = cashArr |> Seq.fold (fun (sum, _) x -> (sum + x.Quantity, x.Currency)) (double 0.0, //Currency "") 
         printfn "%A" ourCashResult
         printfn "%A" ourStockResult
         ourCashResult
-        
-      
 
 let AreEqual (a: double, b: double) = Math.Abs(a - b) < 0.0001
 
