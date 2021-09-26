@@ -52,7 +52,7 @@ type AssetPortfolio() =
 
     interface IExchangeRates with
         member this.GetRate lhs rhs =
-            let x = if lhs = Currency "HRK" then double 1.0 else Map.find lhs currencies
+            let x = if lhs = Currency "HRK" then 1.0 else Map.find lhs currencies
             let y = Map.find rhs currencies
             y / x
         
@@ -65,7 +65,7 @@ type AssetPortfolio() =
             | (x,y) when y <> currency -> v <- v + x * (this :> IExchangeRates).GetRate currency y
             | _ -> printf "Something's wrong with the portfolio lookup at the moment." 
         v
-        
+
     // : AssetPortfolio
     member this.Consolidate() =
         let ourCashResult = 
@@ -75,12 +75,11 @@ type AssetPortfolio() =
 
         let ourStockResult = 
             stockArr
-            |> Seq.groupBy(fun x -> x.Symb)
-            |> Seq.map (fun (x, y) -> (x , y |> Seq.sumBy (fun x -> x.Shares), y |> Seq.averageBy (fun x -> x.Price) ))
+            |> Seq.groupBy(fun x -> x.Symb, x.Currency)
+            |> Seq.map (fun (x, y) -> (x, y |> Seq.sumBy (fun x -> x.Shares), y |> Seq.averageBy (fun x -> x.Price)))
 
         printfn "%A" ourCashResult
         printfn "%A" ourStockResult
-        ourCashResult
 
 let AreEqual (a: double, b: double) = Math.Abs(a - b) < 0.0001
 
@@ -126,7 +125,7 @@ let main argv =
         { Symb = "DDW"
           Shares = 200.0
           Price = 9.0 
-          Currency = Currency "GBP"}
+          Currency = Currency "USD"}
     )
 
     assetPortfolio.Add( Stock
@@ -138,8 +137,6 @@ let main argv =
 
     if not <| AreEqual(assetPortfolio.Value(Currency "USD"), 1800.0) then
         printfn "Test1 Failed, Expected Value: %f, Actual Value: %f" 1800.0 (assetPortfolio.Value(Currency "HRK"))
-
-    printfn "%A" currencies
 
     assetPortfolio.Consolidate()
 
