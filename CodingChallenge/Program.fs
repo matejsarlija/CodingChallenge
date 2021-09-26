@@ -131,6 +131,13 @@ let main argv =
           Currency = Currency "GBP"}
     )
 
+    assetPortfolio.Add( Stock
+        { Symb = "MRN"
+          Shares = 150.0
+          Price = 120.0 
+          Currency = Currency "GBP"}
+    )
+
     if not <| AreEqual(assetPortfolio.Value(Currency "USD"), 1800.0) then
         printfn "Test1 Failed, Expected Value: %f, Actual Value: %f" 1800.0 (assetPortfolio.Value(Currency "HRK"))
 
