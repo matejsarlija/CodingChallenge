@@ -75,7 +75,7 @@ type AssetPortfolio() =
         let ourStockResult = 
             stockArr
             |> Seq.groupBy(fun x -> x.Symb)
-            |> Seq.map (fun (x, y) -> (x , y |> Seq.sumBy (fun x -> x.Shares)))
+            |> Seq.map (fun (x, y) -> (x , y |> Seq.sumBy (fun x -> x.Shares), y |> Seq.averageBy (fun x -> x.Price) ))
 
         // let ourResult = cashArr |> Seq.fold (fun (sum, _) x -> (sum + x.Quantity, x.Currency)) (double 0.0, //Currency "") 
         printfn "%A" ourCashResult
