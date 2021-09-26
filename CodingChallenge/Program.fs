@@ -43,10 +43,9 @@ type AssetPortfolio() =
     let cashArr = ResizeArray<Cash>()
     let stockArr = ResizeArray<Stock>()
 
-
     member this.Add(a) = 
         match a with 
-        | Cash a -> cashArr.Add(a)
+        | Cash a ->  cashArr.Add(a)
         | Stock a -> stockArr.Add(a)
 
         portfolio.Add(a)
@@ -55,11 +54,7 @@ type AssetPortfolio() =
         member this.GetRate lhs rhs =
             let x = if lhs = Currency "HRK" then double 1.0 else Map.find lhs currencies
             let y = Map.find rhs currencies
-            try 
-                y / x
-            with 
-                | Failure msg -> "caught: " + msg;0.0
-                | :? InvalidOperationException as ex -> "Something went wrong.";0.0
+            y / x
         
     member this.Value currency =
         let mutable v:double = 0.0
@@ -70,9 +65,24 @@ type AssetPortfolio() =
             | (x,y) when y <> currency -> v <- v + x * (this :> IExchangeRates).GetRate currency y
             | _ -> printf "Something's wrong with the portfolio lookup at the moment." 
         v
+    // : AssetPortfolio
+    member this.Consolidate() =
+        let ourCashResult = 
+            cashArr
+            |> Seq.groupBy(fun x -> x.Currency)
+            |> Seq.map (fun (x, y) -> (x , y |> Seq.sumBy (fun x -> x.Quantity)))
 
-    member this.Consolidate() : AssetPortfolio = failwith "Not yet implemented"
+        let ourStockResult = 
+            stockArr
+            |> Seq.groupBy(fun x -> x.Symb)
+            |> Seq.map (fun (x, y) -> (x , y |> Seq.sumBy (fun x -> x.Shares)))
 
+        // let ourResult = cashArr |> Seq.fold (fun (sum, _) x -> (sum + x.Quantity, x.Currency)) (double 0.0, //Currency "") 
+        printfn "%A" ourCashResult
+        printfn "%A" ourStockResult
+        ourCashResult
+        
+      
 
 let AreEqual (a: double, b: double) = Math.Abs(a - b) < 0.0001
 
@@ -99,10 +109,34 @@ let main argv =
         Currency = Currency "USD"
     })
 
+    assetPortfolio.Add(Cash {
+        Quantity = 100.0
+        Currency = Currency "USD"
+    })
+
+    assetPortfolio.Add(Cash {
+        Quantity = 200.0
+        Currency = Currency "GBP"
+    })
+
+    assetPortfolio.Add(Cash {
+        Quantity = 100.0
+        Currency = Currency "USD"
+    })
+
+    assetPortfolio.Add( Stock
+        { Symb = "DDW"
+          Shares = 200.0
+          Price = 9.0 
+          Currency = Currency "GBP"}
+    )
+
     if not <| AreEqual(assetPortfolio.Value(Currency "USD"), 1800.0) then
         printfn "Test1 Failed, Expected Value: %f, Actual Value: %f" 1800.0 (assetPortfolio.Value(Currency "HRK"))
 
     printfn "%A" currencies
+
+    assetPortfolio.Consolidate()
 
     printfn "Done... (Press a key to close)"
     Console.ReadKey() |> ignore
