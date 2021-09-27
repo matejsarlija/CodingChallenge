@@ -1,0 +1,27 @@
+Hi Filip and inCommodities, thank you for the task.
+
+The domain (via types) should be a bit tighter overall, by adding
+validation type for currency (and other types) to make sure we have more valid input,
+other method can be made o be more type safe if necessary.
+
+I tried to not change original design choices too much, besides making the currency 
+interface take and return Currency instead of string, and the return type on consolidate().
+
+Maybe the use of ResizeArray was some kind of test on your side, I'd use proper
+regular Array myself, maybe even some kind of a List to make it easier to do more 
+complicated matching later.
+
+There are no tests, I believe all logic works as intended, only for consolidate
+I don't have more time to make it return ResizeArray as intended or something similar.
+
+I definitely wouldn't make it so that consolidate() makes any changes to our original array 
+that is under "this".
+
+Regarding consolidation I've lost way too much time trying to put all the implementation 
+directly to that method, of course something needed to be done directly when adding, or via
+some other member, but I didn't want to pollute the domain unless necessary.
+
+Anyways, had fun, learned a ton, please let me know what can be improved :). 
+
+(the current Github repo is polluted with generated .NET folders, my .gitignore was in the
+wrong folder when I started, that can be improved as well)
