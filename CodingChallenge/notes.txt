@@ -11,7 +11,9 @@ Maybe the use of ResizeArray was some kind of test on your side, I'd use proper
 regular Array myself, maybe even some kind of a List to make it easier to do more 
 complicated matching later.
 
-There are no tests, I believe all logic works as intended, only for consolidate
+There are no tests, removed some exception handling in the end as well.
+
+I believe all logic works as intended, only for consolidate
 I don't have more time to make it return ResizeArray as intended or something similar.
 
 I definitely wouldn't make it so that consolidate() makes any changes to our original array 
